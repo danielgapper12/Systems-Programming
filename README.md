@@ -2,7 +2,7 @@
 
 This repository contains projects and assignments from CPTS 360 (Systems Programming) at Washington State University. The course focuses on low-level programming and operating system fundamentals, providing hands-on experience in system-level software development.
 
-## Key Concepts:
+## Key Concepts
 
 #### Memory Management
 Efficient handling of memory allocation and deallocation.
@@ -12,7 +12,7 @@ Understanding how operating systems manage files, directories, and data storage.
 Managing processes, including creation, synchronization, and communication.
 #### System Calls
 Interfacing with the operating system through system-level functions.
-## Skills Developed:
+## Skills Developed
 
 Proficiency in C for systems programming.
 Ability to write and optimize system-level software.
