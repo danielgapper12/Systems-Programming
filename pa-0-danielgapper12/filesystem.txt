@@ -1,0 +1,5 @@
+D /
+D /Adia_directory
+D /Adia_directory/Daniel
+D /Adia_directory/Daniel/daniel
+F /Adia_directory/Daniel/file.txt
