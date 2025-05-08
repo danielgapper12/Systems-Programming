@@ -1,19 +1,51 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/I8zPSe8U)
-#### CPTS 360 Programming Assignment 3
+# CPTS 360: Programming Assignment 3 – Linux Kernel Module
 
-Base code and documentation for WSU CPTS360 Programming Assignment 3 (Kernel Programming)
+This repository contains my solution for Programming Assignment 3 from CPTS 360 (Systems Programming). The goal of this project was to gain hands-on experience with Linux kernel development by building a custom kernel module that communicates with userspace via the `/proc` filesystem and tracks userspace CPU time for registered processes.
 
+## Project Overview
 
-**Files:**
+The kernel module allows userspace applications to register their PID by writing to `/proc/kmlab/status`. The module tracks the CPU time (user time) of each registered process and updates this data every 5 seconds using a timer and workqueue. The current list of registered processes and their CPU times can be read from the same `/proc` entry.
 
-`Makefile`	      _Compiles your kernel module and userspace application_
+This system uses:
 
-`userapp.c/h`		        _Userspace test application_
+- A custom `/proc` interface
+- A kernel timer and workqueue
+- Kernel linked lists to store process data
+- Locking to handle concurrent access
+- Communication between kernelspace and userspace via `copy_to_user()` and `copy_from_user()`
 
-`kmlab_given.h`		        _Obtain CPU use of a process (no modification needed)_
+## Key Features
 
-`kmlab.c`		        _Kernel module that needs to be implemented_
+- Kernel module accepts PIDs from userspace via `/proc/kmlab/status`
+- Periodically updates CPU usage of each registered process every 5 seconds
+- Supports multiple registered processes simultaneously
+- Safely handles process removal when a process terminates
+- Protects critical regions using spinlocks
+- Fully functional test application (`userapp.c`) that registers itself, runs a computation, and prints CPU time
 
-`kmlab_test.sh`		        _A shell script to test your implementation_
+## Skills Demonstrated
 
-`example_output_pid_x_y.txt`			_Sample outputs when running `kmlab_test.sh` Note: your system may have completely different time values_
+- Linux kernel module development and debugging
+- Kernel-to-userspace communication using the proc filesystem
+- Use of kernel timers, workqueues, and linked lists
+- Synchronization via kernel locking primitives
+- C systems programming in a constrained kernel environment
+
+## Files
+
+- `kmlab.c`: Kernel module implementation
+- `userapp.c`: Userspace application for registration and testing
+- `kmlab_test.sh`: Script to run and test module with multiple userspace processes
+- `random-numbers`: Used for input consistency if required
+- `pa3_gapper.pdf`: Project report outlining design choices and implementation strategy
+
+## How to Build and Run
+
+Compile the kernel module using the provided `Makefile`:
+
+```bash
+make
+sudo insmod kmlab.ko        # Insert the module
+echo $$ > /proc/kmlab/status  # Register the current shell's PID
+cat /proc/kmlab/status     # View registered processes and their CPU usage
+sudo rmmod kmlab           # Remove the module when done
