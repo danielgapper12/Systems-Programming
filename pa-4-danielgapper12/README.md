@@ -1,32 +1,44 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/vezoAnG3)
+# CPTS 360: Programming Assignment 4 – Web Proxy
 
-#### CPTS 360 Lab 4
+This repository contains my solution for Programming Assignment 4 from CPTS 360 (Systems Programming). The objective of this project was to build a basic web proxy server in C capable of handling HTTP/1.0 GET requests. This assignment introduced core networking concepts such as socket programming, HTTP protocol parsing, and request forwarding.
 
-Base code and documentation for WSU CPTS360 Lab 4 (Web Proxy)
+## Project Overview
 
-`proxy.c`
-`csapp.h`
-`csapp.c`
-    These are starter files.  `csapp.c` and `csapp.h` are described in
-    your textbook. You may make any changes you like to these files.  
-    You may create and submit any additional files you like. 
-    You may use `port-for-user.pl` or `free-port.sh` to generate
-    unique ports for your proxy or tiny server. 
+A web proxy acts as an intermediary between a web browser and a web server. When a browser sends a request, the proxy intercepts it, processes the request, and forwards it to the appropriate server. Upon receiving the server's response, the proxy relays it back to the browser. 
 
-`Makefile`
-    This is the makefile that builds the proxy program.  Type `make`
-    to build your solution, or `make clean` followed by `make` for a
-    fresh build. 
+This proxy implementation:
+- Accepts incoming HTTP/1.1 GET requests from clients
+- Parses the request and extracts the target host, port, and path
+- Sends a modified HTTP/1.0 GET request to the end server
+- Forwards the response back to the client
+- Adds essential headers: `Host`, `User-Agent`, `Connection`, and `Proxy-Connection`
+- Handles malformed input and closes connections gracefully
 
-`port-for-user.pl`
-    Generates a random port for a particular user
-    usage: `./port-for-user.pl <userID>`
+## Key Features
 
-`free-port.sh`
-    Handy script that identifies an unused TCP port that you can use
-    for your proxy or tiny. 
-    usage: `./free-port.sh`
+- Parses full URLs and correctly extracts host, port (default 80 or specified), and path
+- Translates HTTP/1.1 requests into HTTP/1.0 format
+- Maintains robustness against malformed or invalid requests
+- Manages binary and text-based content from end servers
+- Modular design for parsing, request forwarding, and response handling
 
-`tiny`
-    Tiny Web server from the CSAPP textbook
+## Skills Demonstrated
 
+- Socket programming using `accept()`, `connect()`, `send()`, and `recv()` in C
+- Understanding of HTTP request/response structure
+- Use of helper tools like `telnet`, `curl`, and `netcat` for testing
+- Parsing and rewriting network protocol headers
+- Managing client-server interactions through custom-built server software
+
+## Files
+
+- `proxy.c`: Main proxy implementation
+- `csapp.c` and `csapp.h`: Utility functions for robust I/O (from CSAPP textbook)
+- `Makefile`: Build instructions
+- `pa4_gapper.pdf`: Implementation write-up and demonstration summary
+
+## How to Build and Run
+
+### Build the proxy:
+```bash
+make
